@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dilara Buyukyilmaz — Learning Design Portfolio</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --purple: #4a154b;
+  --purple-mid: #7b2d7c;
+  --green: #6fd79c;
+  --blue: #76d2f9;
+  --yellow: #ffcd63;
+  --pink: #ee4770;
+  --bg: #f7f7f8;
+  --white: #ffffff;
+  --ink: #1a1a1a;
+  --ink2: #444;
+  --ink3: #888;
+  --border: #e2e2e2;
+  --serif: 'Instrument Serif', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+}
+body { font-family: var(--sans); background: var(--bg); color: var(--ink); font-size: 15px; line-height: 1.6; }
+
+/* NAV */
+.nav { background: var(--purple); position: sticky; top: 0; z-index: 100; }
+.nav-inner { max-width: 900px; margin: 0 auto; padding: 0 32px; display: flex; gap: 0; }
+.nav-btn { background: none; border: none; color: rgba(255,255,255,0.6); font-family: var(--sans); font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; padding: 14px 18px; cursor: pointer; transition: color 0.2s; border-bottom: 2px solid transparent; }
+.nav-btn:hover { color: white; }
+.nav-btn.active { color: var(--green); border-bottom-color: var(--green); }
+
+/* HERO */
+.hero { background: var(--purple); padding: 64px 32px 56px; }
+.hero-inner { max-width: 900px; margin: 0 auto; }
+.hero-tag { display: inline-block; background: rgba(111,215,156,0.18); color: var(--green); border: 1px solid rgba(111,215,156,0.35); border-radius: 100px; font-size: 11px; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; padding: 5px 14px; margin-bottom: 20px; }
+.hero h1 { font-family: var(--serif); font-size: 46px; line-height: 1.1; color: white; font-weight: 400; margin-bottom: 14px; }
+.hero h1 em { color: var(--green); font-style: italic; }
+.hero-sub { font-size: 17px; color: rgba(255,255,255,0.6); max-width: 580px; margin-bottom: 36px; font-weight: 300; }
+.hero-stats { display: flex; gap: 40px; flex-wrap: wrap; }
+.stat { display: flex; flex-direction: column; gap: 3px; }
+.stat-num { font-family: var(--serif); font-size: 30px; color: var(--green); }
+.stat-label { font-size: 11px; color: rgba(255,255,255,0.45); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* SECTION */
+.section { max-width: 900px; margin: 0 auto; padding: 60px 32px; }
+.section-label { display: flex; align-items: center; gap: 14px; margin-bottom: 10px; }
+.section-label-text { font-size: 11px; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--ink3); white-space: nowrap; }
+.section-label-line { flex: 1; height: 1px; background: var(--border); }
+.section-title { font-family: var(--serif); font-size: 28px; color: var(--ink); font-weight: 400; margin-bottom: 6px; }
+.section-desc { font-size: 14px; color: var(--ink3); margin-bottom: 36px; }
+
+/* WORKFLOW */
+.workflow { display: grid; grid-template-columns: repeat(4,1fr); background: white; border: 1px solid var(--border); border-radius: 14px; overflow: hidden; margin-bottom: 48px; }
+.wf-step { padding: 24px 20px; border-right: 1px solid var(--border); }
+.wf-step:last-child { border-right: none; }
+.wf-num { font-family: var(--serif); font-size: 32px; color: var(--border); line-height: 1; margin-bottom: 10px; }
+.wf-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; color: var(--purple); margin-bottom: 6px; }
+.wf-desc { font-size: 12px; color: var(--ink3); line-height: 1.5; }
+
+/* TABS */
+.tabs-outer { margin-bottom: 0; }
+.tab-nav { display: flex; gap: 0; border-bottom: 1px solid var(--border); margin-bottom: 0; }
+.tab-btn { background: none; border: none; border-bottom: 2px solid transparent; padding: 12px 20px; font-family: var(--sans); font-size: 13px; font-weight: 500; color: var(--ink3); cursor: pointer; margin-bottom: -1px; transition: all 0.18s; }
+.tab-btn:hover { color: var(--purple); }
+.tab-btn.active { color: var(--purple); border-bottom-color: var(--purple); }
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* COMPONENT WRAPPER */
+.comp-wrapper { background: white; border: 1px solid var(--border); border-top: none; border-radius: 0 0 14px 14px; overflow: hidden; }
+.comp-header { background: var(--purple); padding: 16px 24px; display: flex; align-items: center; gap: 14px; }
+.comp-header-icon { width: 34px; height: 34px; background: rgba(255,255,255,0.1); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+.comp-header-title { font-size: 14px; font-weight: 600; color: white; }
+.comp-header-sub { font-size: 12px; color: rgba(255,255,255,0.55); }
+.comp-body { padding: 24px; }
+
+/* ============================
+   COMPONENT 1: PROMPT SANDBOX
+   ============================ */
+.sandbox-tabs { display: flex; gap: 8px; margin-bottom: 16px; }
+.stab { padding: 7px 16px; border-radius: 100px; border: 1px solid var(--border); background: white; font-family: var(--sans); font-size: 12px; font-weight: 500; color: var(--ink3); cursor: pointer; transition: all 0.15s; }
+.stab.active { background: var(--purple); color: white; border-color: var(--purple); }
+.mode-desc { font-size: 13px; color: var(--ink3); background: #f8f6ff; border: 1px solid #e8e0ff; border-radius: 8px; padding: 10px 14px; margin-bottom: 14px; display: none; }
+.mode-desc.show { display: block; }
+.sys-prompt-box { margin-bottom: 14px; }
+.sys-prompt-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.07em; color: var(--ink3); margin-bottom: 6px; }
+.sys-prompt-text { font-size: 12px; color: var(--ink2); background: #f9f9f9; border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; font-family: monospace; line-height: 1.5; }
+.starters { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 14px; }
+.starter-btn { background: #f0edf8; border: 1px solid #d8d0f0; color: var(--purple); border-radius: 100px; font-size: 11px; padding: 5px 12px; cursor: pointer; font-family: var(--sans); transition: background 0.15s; }
+.starter-btn:hover { background: #e0d8f0; }
+.chat-window { height: 200px; overflow-y: auto; border: 1px solid var(--border); border-radius: 10px; padding: 12px; margin-bottom: 12px; display: flex; flex-direction: column; gap: 10px; background: #fafafa; }
+.chat-msg { display: flex; flex-direction: column; gap: 2px; }
+.chat-msg .role { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.06em; }
+.chat-msg.user .role { color: var(--purple); text-align: right; }
+.chat-msg.ai .role { color: #2d6a4f; }
+.chat-bubble { padding: 9px 13px; border-radius: 10px; font-size: 13px; line-height: 1.5; max-width: 85%; }
+.chat-msg.user { align-items: flex-end; }
+.chat-msg.user .chat-bubble { background: var(--purple); color: white; border-radius: 10px 10px 2px 10px; }
+.chat-msg.ai .chat-bubble { background: #edfaf3; color: #1a3a28; border: 1px solid #c5e8d0; border-radius: 10px 10px 10px 2px; }
+.chat-input-row { display: flex; gap: 8px; }
+.chat-input { flex: 1; border: 1px solid var(--border); border-radius: 8px; padding: 9px 12px; font-family: var(--sans); font-size: 13px; resize: none; outline: none; height: 60px; }
+.chat-input:focus { border-color: var(--purple); }
+.chat-send { background: var(--purple); color: white; border: none; border-radius: 8px; padding: 0 18px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: background 0.15s; }
+.chat-send:hover { background: var(--purple-mid); }
+.chat-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.api-setup { background: #edfaf3; border: 1px solid #b7ddc7; border-radius: 8px; padding: 12px 14px; margin-bottom: 14px; font-size: 12px; color: #2d6a4f; }
+.api-row { display: flex; gap: 8px; margin-top: 8px; }
+.api-input { flex: 1; border: 1px solid #b7ddc7; border-radius: 6px; padding: 7px 10px; font-size: 12px; font-family: monospace; outline: none; }
+.api-input:focus { border-color: #2d6a4f; }
+.api-save { background: #2d6a4f; color: white; border: none; border-radius: 6px; padding: 7px 14px; font-size: 12px; font-weight: 600; cursor: pointer; font-family: var(--sans); }
+
+/* ============================
+   COMPONENT 2: PROMPT COMPARISON
+   ============================ */
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+.compare-panel { border-radius: 10px; overflow: hidden; border: 1px solid var(--border); }
+.compare-panel-header { padding: 10px 14px; font-size: 11px; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; }
+.compare-panel.weak .compare-panel-header { background: #fff5f5; color: #991b1b; border-bottom: 1px solid #fecaca; }
+.compare-panel.strong .compare-panel-header { background: #f0fdf4; color: #166534; border-bottom: 1px solid #bbf7d0; }
+.compare-panel-body { padding: 12px 14px; background: white; }
+.compare-prompt-text { font-size: 12px; color: var(--ink2); line-height: 1.5; font-family: monospace; background: #fafafa; border: 1px solid var(--border); border-radius: 6px; padding: 10px; margin-bottom: 10px; }
+.compare-send { width: 100%; padding: 9px; border: none; border-radius: 7px; font-family: var(--sans); font-size: 13px; font-weight: 600; cursor: pointer; transition: all 0.15s; }
+.compare-panel.weak .compare-send { background: #fee2e2; color: #991b1b; }
+.compare-panel.weak .compare-send:hover { background: #fecaca; }
+.compare-panel.strong .compare-send { background: #d1fae5; color: #166534; }
+.compare-panel.strong .compare-send:hover { background: #a7f3d0; }
+.compare-send:disabled { opacity: 0.5; cursor: not-allowed; }
+.compare-response { min-height: 80px; font-size: 12px; line-height: 1.5; color: var(--ink2); border-radius: 7px; padding: 10px 12px; margin-top: 10px; border: 1px solid var(--border); background: #fafafa; white-space: pre-wrap; display: none; }
+.compare-response.show { display: block; }
+.compare-panel.weak .compare-response { background: #fff8f8; border-color: #fecaca; }
+.compare-panel.strong .compare-response { background: #f0fdf4; border-color: #bbf7d0; }
+.compare-reflection { background: #f8f6ff; border: 1px solid #e0d8f8; border-radius: 10px; padding: 14px 16px; display: none; }
+.compare-reflection.show { display: block; }
+.compare-reflection-label { font-size: 12px; font-weight: 600; color: var(--purple); margin-bottom: 6px; }
+.compare-reflection-text { font-size: 12px; color: var(--ink2); }
+.loading-dots { display: inline-flex; gap: 3px; }
+.loading-dots span { width: 5px; height: 5px; border-radius: 50%; background: currentColor; opacity: 0.4; animation: dot-pulse 1.2s ease-in-out infinite; }
+.loading-dots span:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots span:nth-child(3) { animation-delay: 0.4s; }
+@keyframes dot-pulse { 0%,80%,100% { opacity: 0.4; transform: scale(0.8); } 40% { opacity: 1; transform: scale(1); } }
+
+/* ============================
+   COMPONENT 3: TEST MATRIX
+   ============================ */
+.matrix-controls { display: flex; gap: 10px; margin-bottom: 16px; align-items: center; }
+.matrix-sys-label { font-size: 12px; color: var(--ink3); flex: 1; }
+.matrix-score { background: var(--purple); color: white; border-radius: 100px; padding: 5px 14px; font-size: 12px; font-weight: 600; }
+.matrix-table { width: 100%; border-collapse: collapse; font-size: 12px; margin-bottom: 16px; }
+.matrix-table th { text-align: left; padding: 8px 10px; background: #f5f5f5; border-bottom: 1px solid var(--border); font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em; color: var(--ink3); }
+.matrix-table td { padding: 8px 10px; border-bottom: 1px solid #f0f0f0; vertical-align: top; }
+.matrix-table tr:hover td { background: #fafafa; }
+.matrix-input { display: none; }
+.matrix-response-cell { max-width: 200px; font-size: 11px; color: var(--ink2); }
+.matrix-run { background: var(--purple); color: white; border: none; border-radius: 5px; padding: 4px 10px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: var(--sans); white-space: nowrap; }
+.matrix-run:disabled { opacity: 0.4; cursor: not-allowed; }
+.pass-btn, .fail-btn { border: none; border-radius: 4px; padding: 3px 8px; font-size: 10px; font-weight: 700; cursor: pointer; margin-right: 3px; font-family: var(--sans); }
+.pass-btn { background: #d1fae5; color: #065f46; }
+.fail-btn { background: #fee2e2; color: #991b1b; }
+.pass-btn.active { background: #065f46; color: white; }
+.fail-btn.active { background: #991b1b; color: white; }
+.matrix-progress { background: #f0f0f0; border-radius: 100px; height: 8px; overflow: hidden; }
+.matrix-progress-bar { height: 100%; border-radius: 100px; background: var(--purple); transition: width 0.4s; }
+
+/* ============================
+   COMPONENT 4: NOTES WIDGET
+   ============================ */
+.notes-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; }
+.notes-title { font-size: 15px; font-weight: 600; color: var(--ink); }
+.notes-status { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--ink3); }
+.notes-dot { width: 7px; height: 7px; border-radius: 50%; background: #ccc; transition: background 0.3s; }
+.notes-dot.saved { background: #2d6a4f; }
+.notes-dot.saving { background: var(--yellow); }
+.notes-textarea { width: 100%; height: 160px; border: 1px solid var(--border); border-radius: 8px; padding: 12px; font-family: var(--sans); font-size: 13px; line-height: 1.6; resize: vertical; outline: none; color: var(--ink); }
+.notes-textarea:focus { border-color: var(--purple); }
+.notes-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; flex-wrap: wrap; gap: 8px; }
+.notes-meta { font-size: 11px; color: var(--ink3); }
+.notes-btns { display: flex; gap: 6px; }
+.notes-btn { border: 1px solid var(--border); background: white; color: var(--ink2); border-radius: 6px; padding: 7px 14px; font-size: 12px; font-weight: 500; cursor: pointer; font-family: var(--sans); transition: all 0.15s; }
+.notes-btn:hover { border-color: var(--purple); color: var(--purple); }
+.notes-btn.danger:hover { border-color: var(--pink); color: var(--pink); }
+.notes-toast { background: var(--purple); color: white; border-radius: 8px; padding: 8px 14px; font-size: 12px; font-weight: 500; margin-top: 10px; display: none; }
+.notes-toast.show { display: block; }
+
+/* PROMPT SYSTEM CARD */
+.prompt-system { background: var(--purple); border-radius: 14px; overflow: hidden; }
+.ps-header { padding: 28px 32px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+.ps-header h3 { font-family: var(--serif); font-size: 24px; color: white; font-weight: 400; margin-bottom: 4px; }
+.ps-header p { font-size: 13px; color: rgba(255,255,255,0.55); }
+.ps-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; padding: 24px 32px 28px; }
+.ps-item { display: flex; gap: 12px; }
+.ps-icon { width: 34px; height: 34px; border-radius: 9px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); display: flex; align-items: center; justify-content: center; font-size: 15px; flex-shrink: 0; }
+.ps-item h4 { font-size: 13px; font-weight: 600; color: white; margin-bottom: 2px; }
+.ps-item p { font-size: 12px; color: rgba(255,255,255,0.5); line-height: 1.45; }
+
+/* IMPACT */
+.impact-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 12px; }
+.impact-card { background: white; border: 1px solid var(--border); border-radius: 12px; padding: 20px 16px; text-align: center; }
+.impact-val { font-family: var(--serif); font-size: 28px; color: var(--purple); line-height: 1; margin-bottom: 6px; }
+.impact-label { font-size: 12px; color: var(--ink3); line-height: 1.4; }
+
+/* FOOTER */
+.footer { background: white; border-top: 1px solid var(--border); padding: 28px 32px; display: flex; justify-content: space-between; align-items: center; }
+.footer-name { font-family: var(--serif); font-size: 20px; color: var(--purple); }
+.footer-contact { font-size: 13px; color: var(--ink3); }
+
+/* ERROR */
+.error-bar { background: #fff0f0; border: 1px solid #fecaca; border-radius: 7px; padding: 8px 12px; font-size: 12px; color: #991b1b; margin-top: 8px; display: none; }
+.error-bar.show { display: block; }
+
+@media(max-width:640px){
+  .hero h1{font-size:32px;} .workflow{grid-template-columns:1fr 1fr;} .compare-grid{grid-template-columns:1fr;} .impact-grid{grid-template-columns:1fr 1fr;} .ps-grid{grid-template-columns:1fr;} .footer{flex-direction:column;gap:8px;text-align:center;}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <button class="nav-btn active" onclick="navScrollTo('workflow', this)">Workflow</button>
+    <button class="nav-btn" onclick="navScrollTo('sandbox', this)">Prompt Sandbox</button>
+    <button class="nav-btn" onclick="navScrollTo('comparison', this)">Comparison</button>
+    <button class="nav-btn" onclick="navScrollTo('matrix', this)">Test Matrix</button>
+    <button class="nav-btn" onclick="navScrollTo('notes', this)">Notes Widget</button>
+    <button class="nav-btn" onclick="navScrollTo('system', this)">Prompt System</button>
+    <button class="nav-btn" onclick="navScrollTo('excerpt', this)">Lesson Example</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Learning Design Portfolio</div>
+    <h1>AI-powered course creation,<br><em>built from first principles</em></h1>
+    <p class="hero-sub">A system for designing structured, pedagogically sound blended learning at scale. All components below are live and interactive.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">4</span><span class="stat-label">Live components</span></div>
+      <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Full courses built</span></div>
+      <div class="stat"><span class="stat-num">1</span><span class="stat-label">Reusable prompt system</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- WORKFLOW -->
+<div id="workflow" class="section">
+  <div class="section-label"><span class="section-label-text">How it works</span><div class="section-label-line"></div></div>
+  <div class="section-title">The course creation workflow</div>
+  <p class="section-desc">From a single master prompt to a fully published Articulate Rise module with live interactive components.</p>
+  <div class="workflow">
+    <div class="wf-step"><div class="wf-num">01</div><div class="wf-title">Master Prompt</div><div class="wf-desc">Course context, learner profile, tone, Rise block types, and quality constraints loaded into one reusable system prompt.</div></div>
+    <div class="wf-step"><div class="wf-num">02</div><div class="wf-title">Module Generation</div><div class="wf-desc">Claude generates full lesson content: cinematic scenario openers, concept blocks, guided labs with checkpoints, knowledge checks, reflections.</div></div>
+    <div class="wf-step"><div class="wf-num">03</div><div class="wf-title">Rise Assembly</div><div class="wf-desc">Output maps directly to Articulate Rise block types. No reformatting — drop and publish.</div></div>
+    <div class="wf-step"><div class="wf-num">04</div><div class="wf-title">Live Components</div><div class="wf-desc">Custom HTML widgets embedded in Rise give learners live AI interaction, prompt testing, and real API feedback inside the course.</div></div>
+  </div>
+</div>
+
+<!-- COMPONENT 1: PROMPT SANDBOX -->
+<div id="sandbox" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">Component 1</span><div class="section-label-line"></div></div>
+  <div class="section-title">AI Prompt Sandbox</div>
+  <p class="section-desc">Embedded inside Articulate Rise. Learners test prompts live using the Anthropic API without leaving the course. Two modes: free exploration and PM Agent mode with a locked system prompt.</p>
+
+  <div class="tab-nav">
+    <button class="tab-btn active" onclick="switchSandboxTab('free', this)">Free sandbox</button>
+    <button class="tab-btn" onclick="switchSandboxTab('pm', this)">PM Agent mode</button>
+  </div>
+  <div class="comp-wrapper">
+    <div class="comp-header">
+      <div class="comp-header-icon">🧪</div>
+      <div><div class="comp-header-title">AI Prompt Sandbox</div><div class="comp-header-sub">Test your prompts and see how the AI responds</div></div>
+    </div>
+    <div class="comp-body">
+      <div class="api-setup" id="sandbox-api-setup">
+        <strong>One-time setup:</strong> Paste your Anthropic API key to use this sandbox. Your key stays in this browser session only.
+        <div class="api-row">
+          <input type="password" class="api-input" id="sandbox-api-key" placeholder="sk-ant-..." />
+          <button class="api-save" onclick="saveSandboxKey()">Save key</button>
+        </div>
+      </div>
+      <div id="sandbox-free-desc" class="mode-desc show">
+        <strong>Free mode:</strong> Write any prompt. Experiment with the PM Prompting Framework: Role, Context, Task, Constraints, Output format.
+      </div>
+      <div id="sandbox-pm-desc" class="mode-desc">
+        <strong>PM Agent mode:</strong> The system prompt is pre-loaded and locked. Write your product request and experience a configured AI agent.
+      </div>
+      <div id="sandbox-pm-sysprompt" class="sys-prompt-box" style="display:none;">
+        <div class="sys-prompt-label">System prompt (locked)</div>
+        <div class="sys-prompt-text">You are a Senior Product Manager AI Agent. Your role is to help builders think through product decisions clearly and systematically. When asked about a feature or product idea, ask clarifying questions about the target user, the problem being solved, and what success looks like. Then provide structured product thinking.</div>
+      </div>
+      <div class="starters" id="sandbox-starters"></div>
+      <div class="chat-window" id="sandbox-chat"></div>
+      <div class="error-bar" id="sandbox-error"></div>
+      <div class="chat-input-row">
+        <textarea class="chat-input" id="sandbox-input" placeholder="Write your prompt here..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendSandbox();}"></textarea>
+        <button class="chat-send" id="sandbox-send" onclick="sendSandbox()">Send</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPONENT 2: PROMPT COMPARISON -->
+<div id="comparison" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">Component 2</span><div class="section-label-line"></div></div>
+  <div class="section-title">Prompt Comparison</div>
+  <p class="section-desc">Learners send a weak and a strong prompt side by side. Seeing the difference in AI output quality makes the lesson land better than any explanation.</p>
+
+  <div class="comp-wrapper" style="border-top:1px solid var(--border);border-radius:14px;">
+    <div class="comp-header">
+      <div class="comp-header-icon">⚖️</div>
+      <div><div class="comp-header-title">Prompt Comparison</div><div class="comp-header-sub">Send both prompts and compare the AI responses side by side</div></div>
+    </div>
+    <div class="comp-body">
+      <div class="api-setup" id="compare-api-setup">
+        <strong>One-time setup:</strong> Paste your Anthropic API key.
+        <div class="api-row">
+          <input type="password" class="api-input" id="compare-api-key" placeholder="sk-ant-..." />
+          <button class="api-save" onclick="saveCompareKey()">Save key</button>
+        </div>
+      </div>
+      <div class="compare-grid">
+        <div class="compare-panel weak">
+          <div class="compare-panel-header">Weak prompt</div>
+          <div class="compare-panel-body">
+            <div class="compare-prompt-text" id="weak-prompt-display">Write something about climate change for my report.</div>
+            <button class="compare-send" onclick="sendCompare('weak')" id="weak-send-btn">Send weak prompt</button>
+            <div class="compare-response" id="weak-response"></div>
+          </div>
+        </div>
+        <div class="compare-panel strong">
+          <div class="compare-panel-header">Strong prompt</div>
+          <div class="compare-panel-body">
+            <div class="compare-prompt-text" id="strong-prompt-display">You are an environmental journalist writing for a non-technical audience. Summarise the top 3 causes of climate change in exactly 150 words. Use clear, jargon-free language and end with one specific action individuals can take.</div>
+            <button class="compare-send" onclick="sendCompare('strong')" id="strong-send-btn">Send strong prompt</button>
+            <div class="compare-response" id="strong-response"></div>
+          </div>
+        </div>
+      </div>
+      <div class="compare-reflection" id="compare-reflection">
+        <div class="compare-reflection-label">Reflection</div>
+        <div class="compare-reflection-text">What specific differences do you notice in the two responses? Consider: length, specificity, tone, and how closely each response matched what you actually needed. What elements of the strong prompt caused those differences?</div>
+      </div>
+      <div class="error-bar" id="compare-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPONENT 3: TEST MATRIX -->
+<div id="matrix" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">Component 3</span><div class="section-label-line"></div></div>
+  <div class="section-title">OpenAI Playground Replica</div>
+  <p class="section-desc">A structured test matrix where learners run 8 prompts, mark pass/fail, and track their pass rate. Designed for the Python API lesson where learners test whether their system prompt handles different input types correctly.</p>
+
+  <div class="comp-wrapper" style="border-top:1px solid var(--border);border-radius:14px;">
+    <div class="comp-header">
+      <div class="comp-header-icon">🔬</div>
+      <div><div class="comp-header-title">Prompt Test Matrix</div><div class="comp-header-sub">Run each test case and mark pass or fail</div></div>
+    </div>
+    <div class="comp-body">
+      <div class="api-setup" id="matrix-api-setup">
+        <strong>One-time setup:</strong> Paste your Anthropic API key.
+        <div class="api-row">
+          <input type="password" class="api-input" id="matrix-api-key" placeholder="sk-ant-..." />
+          <button class="api-save" onclick="saveMatrixKey()">Save key</button>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px;">
+        <div style="font-size:12px;color:var(--ink3);">System prompt: <em>"You are a maths assistant. Answer only maths questions. For non-maths inputs, politely decline."</em></div>
+        <div class="matrix-score" id="matrix-score">0 / 8 passing</div>
+      </div>
+      <div style="margin-bottom:12px;">
+        <div class="matrix-progress"><div class="matrix-progress-bar" id="matrix-bar" style="width:0%"></div></div>
+      </div>
+      <table class="matrix-table">
+        <thead><tr><th>#</th><th>Input</th><th>Expected</th><th>Response</th><th>Run</th><th>Result</th></tr></thead>
+        <tbody id="matrix-body"></tbody>
+      </table>
+      <div class="error-bar" id="matrix-error"></div>
+    </div>
+  </div>
+</div>
+
+<!-- COMPONENT 4: NOTES WIDGET -->
+<div id="notes" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">Component 4</span><div class="section-label-line"></div></div>
+  <div class="section-title">Note-taking Widget</div>
+  <p class="section-desc">A persistent note-taking tool embedded in Rise. Notes autosave to localStorage, survive browser sessions, and can be downloaded or copied.</p>
+
+  <div class="comp-wrapper" style="border-top:1px solid var(--border);border-radius:14px;">
+    <div class="comp-header">
+      <div class="comp-header-icon">📝</div>
+      <div><div class="comp-header-title">My Notes</div><div class="comp-header-sub">Your notes are saved automatically in this browser</div></div>
+    </div>
+    <div class="comp-body">
+      <div class="notes-header-row">
+        <div class="notes-title">My Notes</div>
+        <div class="notes-status"><div class="notes-dot" id="notes-dot"></div><span id="notes-status-text">Not saved yet</span></div>
+      </div>
+      <textarea class="notes-textarea" id="notes-area" placeholder="Write your notes here. They will be saved automatically..."></textarea>
+      <div class="notes-footer">
+        <div class="notes-meta" id="notes-meta">0 characters · <span id="notes-timestamp">No saves yet</span></div>
+        <div class="notes-btns">
+          <button class="notes-btn" onclick="copyNotes()">Copy</button>
+          <button class="notes-btn" onclick="downloadNotes()">Download .txt</button>
+          <button class="notes-btn danger" onclick="clearNotes()">Clear</button>
+        </div>
+      </div>
+      <div class="notes-toast" id="notes-toast"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PROMPT SYSTEM -->
+<div id="system" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">The reusable system</span><div class="section-label-line"></div></div>
+  <div class="section-title">Master course creation prompt</div>
+  <p class="section-desc" style="margin-bottom:24px;">A single prompt that functions as both instructional design brief and content generation engine. Refined per course, consistent in structure.</p>
+  <div class="prompt-system">
+    <div class="ps-header">
+      <h3>What the master prompt contains</h3>
+      <p>Used before every module build. Full, publication-ready Rise content in one session.</p>
+    </div>
+    <div class="ps-grid">
+      <div class="ps-item"><div class="ps-icon">🎯</div><div><h4>Course philosophy and tone</h4><p>Learning by doing. Every lesson produces something tangible. No passive theory.</p></div></div>
+      <div class="ps-item"><div class="ps-icon">👤</div><div><h4>Learner profile</h4><p>Specific audience, prior knowledge, goals, and what they are building toward.</p></div></div>
+      <div class="ps-item"><div class="ps-icon">🧱</div><div><h4>Block-by-block structure rules</h4><p>Each lesson section maps to a Rise block type: hook, concept, lab, knowledge check, reflection.</p></div></div>
+      <div class="ps-item"><div class="ps-icon">✅</div><div><h4>Quality standards</h4><p>Cinematic scenario openers, checkpointed labs, knowledge checks with full answer explanations, badge logic.</p></div></div>
+      <div class="ps-item"><div class="ps-icon">🚫</div><div><h4>Hard constraints</h4><p>No em dashes, no passive learning, no vague objectives. Enforced automatically in every output.</p></div></div>
+      <div class="ps-item"><div class="ps-icon">🔁</div><div><h4>Reusable across courses</h4><p>Same structure, updated context per course. Consistent quality at scale.</p></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- LESSON EXCERPT -->
+<div id="excerpt" class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">Real output example</span><div class="section-label-line"></div></div>
+  <div class="section-title">Lesson excerpt: AI Product Builder course</div>
+  <p class="section-desc" style="margin-bottom:24px;">This is real content generated using the master prompt system. Module 1, Lesson 1.1 — showing the cinematic scenario block and knowledge check exactly as they appear in Articulate Rise.</p>
+
+  <div style="background:white;border:1px solid #e2e2e2;border-radius:14px;overflow:hidden;margin-bottom:16px;">
+    <!-- Course label -->
+    <div style="background:#f5f5f5;border-bottom:1px solid #e2e2e2;padding:10px 24px;display:flex;align-items:center;gap:10px;">
+      <span style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#888;">Course</span>
+      <span style="font-size:12px;color:#444;">Become an AI Product Builder: Build and Launch with Agent Workflows</span>
+      <span style="margin-left:auto;font-size:11px;color:#aaa;">Module 1 · Lesson 1.1</span>
+    </div>
+
+    <!-- Learning objective -->
+    <div style="padding:20px 24px 0;">
+      <div style="font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:0.08em;color:#888;margin-bottom:6px;">Learning Objective</div>
+      <div style="font-size:14px;color:#333;background:#f8f6ff;border-left:3px solid #4a154b;padding:10px 14px;border-radius:0 8px 8px 0;">Identify the shift in where human effort goes in AI-era product building, and explain why product thinking is now the primary skill.</div>
+    </div>
+
+    <!-- Scenario block -->
+    <div style="padding:20px 24px;">
+      <div style="background:#fff8f2;border:1px solid #fde4c8;border-radius:12px;overflow:hidden;">
+        <div style="background:#c5622a;padding:10px 18px;">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:white;">🎬 Scenario — Which Builder Has the Right Mindset?</span>
+        </div>
+        <div style="padding:18px 20px;display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#c5622a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">The Situation</div>
+            <div style="font-size:13px;color:#444;line-height:1.6;">Priya has an idea for a tool that automatically summarises customer feedback from emails and sends a weekly digest to her team. She is not a developer. She opens Cursor and types: "Build me an app." Her colleague Marcus has the same idea. He spends 30 minutes writing down exactly who the user is, what the input is, what the output should look like, and what "good" means. Then he opens Cursor.</div>
+          </div>
+          <div>
+            <div style="font-size:11px;font-weight:700;color:#c5622a;text-transform:uppercase;letter-spacing:0.07em;margin-bottom:6px;">Your Task</div>
+            <div style="font-size:13px;color:#444;line-height:1.6;">Who will get a better result — and why? What does this tell you about where the real work of being an AI product builder happens?</div>
+          </div>
+          <div style="background:#fdf2eb;border:1px solid #f0d9c8;border-radius:8px;padding:10px 14px;font-size:12px;color:#c5622a;font-style:italic;">
+            💡 Hint: The AI builder's advantage is not speed of typing — it is quality of thinking.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Knowledge check -->
+    <div style="padding:0 24px 24px;">
+      <div style="background:#f8f6ff;border:1px solid #ddd4f5;border-radius:12px;overflow:hidden;">
+        <div style="background:#4a154b;padding:10px 18px;">
+          <span style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:white;">❓ Knowledge Check</span>
+        </div>
+        <div style="padding:18px 20px;">
+          <div style="font-size:14px;font-weight:600;color:#1a1a1a;margin-bottom:16px;">Which of the following best describes what has changed most significantly for builders in the AI era?</div>
+          <div style="display:flex;flex-direction:column;gap:8px;" id="kc-options">
+            <div class="kc-option" onclick="selectKC(this,'wrong')" style="border:1px solid #e2e2e2;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;color:#444;transition:all 0.15s;">A) Writing code has become faster and easier</div>
+            <div class="kc-option" onclick="selectKC(this,'correct')" style="border:1px solid #e2e2e2;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;color:#444;transition:all 0.15s;">B) The bottleneck has shifted from execution to thinking and product judgment</div>
+            <div class="kc-option" onclick="selectKC(this,'wrong')" style="border:1px solid #e2e2e2;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;color:#444;transition:all 0.15s;">C) You no longer need to understand technology to build digital products</div>
+            <div class="kc-option" onclick="selectKC(this,'wrong')" style="border:1px solid #e2e2e2;border-radius:8px;padding:10px 14px;cursor:pointer;font-size:13px;color:#444;transition:all 0.15s;">D) AI has replaced the need for product managers</div>
+          </div>
+          <div id="kc-feedback" style="margin-top:14px;display:none;"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Design note -->
+    <div style="border-top:1px solid #f0f0f0;padding:14px 24px;background:#fafafa;display:flex;gap:24px;flex-wrap:wrap;">
+      <div style="font-size:11px;color:#888;"><span style="font-weight:600;color:#4a154b;">Rise block:</span> Scenario (custom HTML)</div>
+      <div style="font-size:11px;color:#888;"><span style="font-weight:600;color:#4a154b;">Rise block:</span> Knowledge Check with full answer explanations</div>
+      <div style="font-size:11px;color:#888;"><span style="font-weight:600;color:#4a154b;">Standard:</span> Every wrong answer gets a redirect, every correct answer gets the reasoning</div>
+    </div>
+  </div>
+</div>
+
+<!-- IMPACT -->
+<div class="section" style="padding-top:0;">
+  <div class="section-label"><span class="section-label-text">What it improved</span><div class="section-label-line"></div></div>
+  <div class="impact-grid">
+    <div class="impact-card"><div class="impact-val">1 session</div><div class="impact-label">Full module content, Rise-ready</div></div>
+    <div class="impact-card"><div class="impact-val">100%</div><div class="impact-label">Consistent pedagogical structure across every lesson</div></div>
+    <div class="impact-card"><div class="impact-val">0</div><div class="impact-label">Quality checks skipped — enforced by the prompt</div></div>
+    <div class="impact-card"><div class="impact-val">Live</div><div class="impact-label">Learners interact with real AI inside the course</div></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-name">Dilara Buyukyilmaz</div>
+  <div class="footer-contact">dilarabegumbuyukyilmaz@gmail.com &nbsp;·&nbsp; The Hague, Netherlands</div>
+</div>
+
+<script>
+// ── SCROLL NAV ────────────────────────────────────────────
+function navScrollTo(id, btn) {
+  document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
+  document.querySelectorAll(".nav-btn").forEach(function(b){b.classList.remove("active");});
+  if(btn) btn.classList.add("active");
+}
+
+// ── SHARED API KEY STORE ──────────────────────────────────
+let KEYS = { sandbox: '', compare: '', matrix: '' };
+
+function hideSetup(id) {
+  const el = document.getElementById(id);
+  if (el) el.style.display = 'none';
+}
+
+async function callClaude(apiKey, messages, system) {
+  const body = { model: 'claude-sonnet-4-20250514', max_tokens: 600, messages };
+  if (system) body.system = system;
+  const res = await fetch('https://api.anthropic.com/v1/messages', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'x-api-key': apiKey, 'anthropic-version': '2023-06-01' },
+    body: JSON.stringify(body)
+  });
+  if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error'); }
+  const data = await res.json();
+  return data.content[0].text;
+}
+
+// ── COMPONENT 1: PROMPT SANDBOX ───────────────────────────
+let sandboxMode = 'free';
+let sandboxMessages = [];
+const sandboxFreePm = null;
+const sandboxPmSystem = 'You are a Senior Product Manager AI Agent. Your role is to help builders think through product decisions clearly and systematically. When asked about a feature or product idea, ask clarifying questions about the target user, the problem being solved, and what success looks like. Then provide structured product thinking.';
+
+const freeStarters = ['What makes a good AI prompt?', 'Explain APIs like I am a beginner', 'Write a user story for a login feature', 'What is the difference between GPT-3 and GPT-4?'];
+const pmStarters = ['I want to add a search feature to my app', 'How do I decide what to build first?', 'My app has too many features — help me prioritise', 'What should my MVP include?'];
+
+function renderStarters() {
+  const el = document.getElementById('sandbox-starters');
+  const list = sandboxMode === 'free' ? freeStarters : pmStarters;
+  el.innerHTML = list.map(s => `<button class="starter-btn" onclick="loadStarter('${s.replace(/'/g,"\\'")}')">↳ ${s}</button>`).join('');
+}
+
+function loadStarter(text) {
+  document.getElementById('sandbox-input').value = text;
+}
+
+function switchSandboxTab(mode, btn) {
+  sandboxMode = mode;
+  sandboxMessages = [];
+  document.getElementById('sandbox-chat').innerHTML = '';
+  document.getElementById('sandbox-free-desc').classList.toggle('show', mode === 'free');
+  document.getElementById('sandbox-pm-desc').classList.toggle('show', mode === 'pm');
+  document.getElementById('sandbox-pm-sysprompt').style.display = mode === 'pm' ? 'block' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderStarters();
+}
+
+function saveSandboxKey() {
+  const k = document.getElementById('sandbox-api-key').value.trim();
+  if (!k) return;
+  KEYS.sandbox = k;
+  KEYS.compare = k;
+  KEYS.matrix = k;
+  hideSetup('sandbox-api-setup');
+  hideSetup('compare-api-setup');
+  hideSetup('matrix-api-setup');
+}
+
+function addSandboxMsg(role, text) {
+  const win = document.getElementById('sandbox-chat');
+  const div = document.createElement('div');
+  div.className = `chat-msg ${role}`;
+  div.innerHTML = `<div class="role">${role === 'user' ? 'You' : 'Claude'}</div><div class="chat-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  win.appendChild(div);
+  win.scrollTop = win.scrollHeight;
+}
+
+async function sendSandbox() {
+  if (!KEYS.sandbox) { document.getElementById('sandbox-error').textContent = 'Please save your API key first.'; document.getElementById('sandbox-error').classList.add('show'); return; }
+  const input = document.getElementById('sandbox-input');
+  const text = input.value.trim();
+  if (!text) return;
+  document.getElementById('sandbox-error').classList.remove('show');
+  input.value = '';
+  addSandboxMsg('user', text);
+  sandboxMessages.push({ role: 'user', content: text });
+  const btn = document.getElementById('sandbox-send');
+  btn.disabled = true; btn.textContent = '...';
+  try {
+    const system = sandboxMode === 'pm' ? sandboxPmSystem : undefined;
+    const reply = await callClaude(KEYS.sandbox, sandboxMessages, system);
+    sandboxMessages.push({ role: 'assistant', content: reply });
+    addSandboxMsg('ai', reply);
+  } catch(e) {
+    document.getElementById('sandbox-error').textContent = e.message;
+    document.getElementById('sandbox-error').classList.add('show');
+  }
+  btn.disabled = false; btn.textContent = 'Send';
+}
+
+// ── COMPONENT 2: PROMPT COMPARISON ───────────────────────
+const weakPrompt = 'Write something about climate change for my report.';
+const strongPrompt = 'You are an environmental journalist writing for a non-technical audience. Summarise the top 3 causes of climate change in exactly 150 words. Use clear, jargon-free language and end with one specific action individuals can take.';
+let comparesSent = 0;
+
+function saveCompareKey() {
+  const k = document.getElementById('compare-api-key').value.trim();
+  if (!k) return;
+  KEYS.compare = k; KEYS.sandbox = k; KEYS.matrix = k;
+  hideSetup('compare-api-setup'); hideSetup('sandbox-api-setup'); hideSetup('matrix-api-setup');
+}
+
+async function sendCompare(type) {
+  if (!KEYS.compare) { document.getElementById('compare-error').textContent = 'Please save your API key first.'; document.getElementById('compare-error').classList.add('show'); return; }
+  document.getElementById('compare-error').classList.remove('show');
+  const prompt = type === 'weak' ? weakPrompt : strongPrompt;
+  const btn = document.getElementById(`${type}-send-btn`);
+  const responseEl = document.getElementById(`${type}-response`);
+  btn.disabled = true;
+  btn.innerHTML = `Sending <span class="loading-dots"><span></span><span></span><span></span></span>`;
+  responseEl.classList.remove('show');
+  try {
+    const reply = await callClaude(KEYS.compare, [{ role: 'user', content: prompt }]);
+    responseEl.textContent = reply;
+    responseEl.classList.add('show');
+    comparesSent++;
+    if (comparesSent >= 2) document.getElementById('compare-reflection').classList.add('show');
+  } catch(e) {
+    document.getElementById('compare-error').textContent = e.message;
+    document.getElementById('compare-error').classList.add('show');
+  }
+  btn.disabled = false;
+  btn.textContent = type === 'weak' ? 'Send weak prompt' : 'Send strong prompt';
+}
+
+// ── COMPONENT 3: TEST MATRIX ──────────────────────────────
+const matrixSystem = 'You are a maths assistant. You answer ONLY maths questions with concise numerical answers. For any non-maths input, respond with exactly: "I can only help with maths questions."';
+const matrixCases = [
+  { input: 'What is 12 x 12?', expected: '144' },
+  { input: 'What is 15% of 200?', expected: '30' },
+  { input: 'What is the square root of 144?', expected: '12' },
+  { input: 'What is 100 divided by 4?', expected: '25' },
+  { input: 'Hello, how are you?', expected: 'Decline (not maths)' },
+  { input: 'What is the capital of France?', expected: 'Decline (not maths)' },
+  { input: 'What is 7 to the power of 3?', expected: '343' },
+  { input: 'Write me a poem', expected: 'Decline (not maths)' },
+];
+let matrixResults = Array(matrixCases.length).fill(null);
+let matrixResponses = Array(matrixCases.length).fill('');
+
+function saveMatrixKey() {
+  const k = document.getElementById('matrix-api-key').value.trim();
+  if (!k) return;
+  KEYS.matrix = k; KEYS.sandbox = k; KEYS.compare = k;
+  hideSetup('matrix-api-setup'); hideSetup('sandbox-api-setup'); hideSetup('compare-api-setup');
+}
+
+function buildMatrix() {
+  const tbody = document.getElementById('matrix-body');
+  tbody.innerHTML = matrixCases.map((c, i) => `
+    <tr id="matrix-row-${i}">
+      <td style="color:var(--ink3);font-weight:600;">${i+1}</td>
+      <td style="font-family:monospace;font-size:11px;">${c.input}</td>
+      <td style="color:var(--ink3);font-size:11px;">${c.expected}</td>
+      <td class="matrix-response-cell" id="matrix-resp-${i}"><span style="color:#ccc;">—</span></td>
+      <td><button class="matrix-run" onclick="runMatrix(${i})" id="matrix-run-${i}">Run</button></td>
+      <td>
+        <button class="pass-btn" id="matrix-pass-${i}" onclick="markMatrix(${i},'pass')" disabled>Pass</button>
+        <button class="fail-btn" id="matrix-fail-${i}" onclick="markMatrix(${i},'fail')" disabled>Fail</button>
+      </td>
+    </tr>`).join('');
+}
+
+async function runMatrix(i) {
+  if (!KEYS.matrix) { document.getElementById('matrix-error').textContent = 'Please save your API key first.'; document.getElementById('matrix-error').classList.add('show'); return; }
+  document.getElementById('matrix-error').classList.remove('show');
+  const btn = document.getElementById(`matrix-run-${i}`);
+  const respEl = document.getElementById(`matrix-resp-${i}`);
+  btn.disabled = true; btn.textContent = '...';
+  respEl.innerHTML = `<span class="loading-dots"><span></span><span></span><span></span></span>`;
+  try {
+    const reply = await callClaude(KEYS.matrix, [{ role: 'user', content: matrixCases[i].input }], matrixSystem);
+    matrixResponses[i] = reply;
+    respEl.textContent = reply.length > 80 ? reply.slice(0,80)+'...' : reply;
+    document.getElementById(`matrix-pass-${i}`).disabled = false;
+    document.getElementById(`matrix-fail-${i}`).disabled = false;
+  } catch(e) {
+    respEl.textContent = 'Error';
+    document.getElementById('matrix-error').textContent = e.message;
+    document.getElementById('matrix-error').classList.add('show');
+  }
+  btn.disabled = false; btn.textContent = 'Re-run';
+}
+
+function markMatrix(i, result) {
+  matrixResults[i] = result;
+  const passBtn = document.getElementById(`matrix-pass-${i}`);
+  const failBtn = document.getElementById(`matrix-fail-${i}`);
+  passBtn.classList.toggle('active', result === 'pass');
+  failBtn.classList.toggle('active', result === 'fail');
+  updateMatrixScore();
+}
+
+function updateMatrixScore() {
+  const passing = matrixResults.filter(r => r === 'pass').length;
+  const total = matrixCases.length;
+  document.getElementById('matrix-score').textContent = `${passing} / ${total} passing`;
+  document.getElementById('matrix-bar').style.width = `${(passing/total)*100}%`;
+}
+
+// ── COMPONENT 4: NOTES WIDGET ─────────────────────────────
+const NOTES_KEY = 'portfolio_notes_v1';
+let notesTimer = null;
+
+function initNotes() {
+  const area = document.getElementById('notes-area');
+  try {
+    const raw = localStorage.getItem(NOTES_KEY);
+    if (raw) {
+      const d = JSON.parse(raw);
+      area.value = d.text || '';
+      updateNotesMeta();
+      if (d.savedAt) {
+        document.getElementById('notes-timestamp').textContent = 'Last saved: ' + new Date(d.savedAt).toLocaleTimeString();
+        setNotesDot('saved');
+        document.getElementById('notes-status-text').textContent = 'Saved';
+      }
+    }
+  } catch(e) {}
+  area.addEventListener('input', () => {
+    updateNotesMeta();
+    setNotesDot('saving');
+    document.getElementById('notes-status-text').textContent = 'Saving...';
+    clearTimeout(notesTimer);
+    notesTimer = setTimeout(saveNotes, 800);
+  });
+}
+
+function updateNotesMeta() {
+  const len = document.getElementById('notes-area').value.length;
+  document.getElementById('notes-meta').innerHTML = `${len.toLocaleString()} characters &nbsp;·&nbsp; <span id="notes-timestamp">${document.getElementById('notes-timestamp')?.textContent || 'No saves yet'}</span>`;
+}
+
+function saveNotes() {
+  try {
+    const text = document.getElementById('notes-area').value;
+    const now = new Date();
+    localStorage.setItem(NOTES_KEY, JSON.stringify({ text, savedAt: now.toISOString() }));
+    setNotesDot('saved');
+    document.getElementById('notes-status-text').textContent = 'Saved';
+    const tsEl = document.getElementById('notes-timestamp');
+    if (tsEl) tsEl.textContent = 'Last saved: ' + now.toLocaleTimeString();
+  } catch(e) {}
+}
+
+function setNotesDot(state) {
+  const dot = document.getElementById('notes-dot');
+  dot.className = 'notes-dot ' + state;
+}
+
+function copyNotes() {
+  const text = document.getElementById('notes-area').value;
+  if (!text.trim()) { showNotesToast('Nothing to copy.'); return; }
+  navigator.clipboard.writeText(text).then(() => showNotesToast('Notes copied to clipboard!')).catch(() => showNotesToast('Copy failed — please select and copy manually.'));
+}
+
+function downloadNotes() {
+  const text = document.getElementById('notes-area').value;
+  if (!text.trim()) { showNotesToast('Nothing to download.'); return; }
+  const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url; a.download = 'my-notes-' + new Date().toISOString().slice(0,10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
+  showNotesToast('Notes downloaded!');
+}
+
+function clearNotes() {
+  if (!confirm('Clear all notes? This cannot be undone.')) return;
+  document.getElementById('notes-area').value = '';
+  updateNotesMeta();
+  try { localStorage.removeItem(NOTES_KEY); } catch(e) {}
+  setNotesDot('');
+  document.getElementById('notes-status-text').textContent = 'Not saved yet';
+  showNotesToast('Notes cleared.');
+}
+
+function showNotesToast(msg) {
+  const t = document.getElementById('notes-toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── KNOWLEDGE CHECK ───────────────────────────────────────
+const kcFeedback = {
+  correct: {
+    html: `<div style="background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:12px 14px;">
+      <div style="font-size:12px;font-weight:700;color:#166534;margin-bottom:4px;">Correct.</div>
+      <div style="font-size:12px;color:#166534;line-height:1.5;">The key shift in the AI era is not that coding is faster — it is that coding is no longer the constraint. The bottleneck has moved upstream: to clarity of thinking, quality of product decisions, and how well you can direct AI agents. Marcus gets a better result than Priya not because he types faster but because he thinks first.</div>
+    </div>`,
+  },
+  wrong: {
+    html: `<div style="background:#fff8f0;border:1px solid #fde4c8;border-radius:8px;padding:12px 14px;">
+      <div style="font-size:12px;font-weight:700;color:#c5622a;margin-bottom:4px;">Not quite.</div>
+      <div style="font-size:12px;color:#c5622a;line-height:1.5;">While AI does make some aspects of building faster, the most significant shift is deeper than speed. The bottleneck has moved from execution to thinking. AI can write code — it cannot decide what to build, who to build it for, or what "good" looks like. That judgment is now the primary skill. Think about Marcus vs Priya: the difference was not their tools, it was their preparation.</div>
+    </div>`,
+  }
+};
+
+function selectKC(el, type) {
+  document.querySelectorAll('.kc-option').forEach(o => {
+    o.style.border = '1px solid #e2e2e2';
+    o.style.background = 'white';
+    o.style.color = '#444';
+  });
+  if (type === 'correct') {
+    el.style.border = '1px solid #bbf7d0';
+    el.style.background = '#f0fdf4';
+    el.style.color = '#166534';
+  } else {
+    el.style.border = '1px solid #fde4c8';
+    el.style.background = '#fff8f0';
+    el.style.color = '#c5622a';
+  }
+  const fb = document.getElementById('kc-feedback');
+  fb.innerHTML = kcFeedback[type].html;
+  fb.style.display = 'block';
+}
+
+// ── INIT ──────────────────────────────────────────────────
+renderStarters();
+buildMatrix();
+initNotes();
+</script>
+</body>
+</html>
